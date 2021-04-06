@@ -12,6 +12,7 @@ DEBUG_PORT = '5588'
 DEBUG_URL = 'http://127.0.0.1:%s' % DEBUG_PORT
 os.environ['QTWEBENGINE_REMOTE_DEBUGGING'] = DEBUG_PORT
 inspector = False
+zer_dir = ""
 
 class Zer(QMainWindow):
 
@@ -39,7 +40,8 @@ class Zer(QMainWindow):
     def create_toolbar( self ):
         self.toolbar =  QToolBar( 'ToolBar' )
         self.addToolBar( self.toolbar )
-        self.home_btn = QAction( QIcon( './home.png' ), 'Home', self )
+        print( os.path.join( zer_dir, 'home.png' ) )
+        self.home_btn = QAction( QIcon( os.path.join(zer_dir, 'home.png') ), 'Home', self )
         self.home_btn.triggered.connect( self.home )
         self.toolbar.addAction( self.home_btn )
 
@@ -49,7 +51,7 @@ class Zer(QMainWindow):
         self.toolbar.addWidget( self.urlbar )
 
         self.toolbar.addSeparator()
-        self.close_btn = QAction( QIcon( './close.png' ), 'Close', self )
+        self.close_btn = QAction( QIcon( os.path.join(zer_dir, 'close.png') ), 'Close', self )
         self.close_btn.triggered.connect( self.close )
         self.toolbar.addAction( self.close_btn )
 
@@ -112,6 +114,8 @@ class Zer(QMainWindow):
 
 if "--zer-tool" in sys.argv or "-zer-tool" in sys.argv:
     inspector = True
+
+zer_dir = os.path.dirname( os.path.realpath( sys.argv[0] ) )
 
 app = QApplication(sys.argv)
 app.setApplicationName('Zer')
